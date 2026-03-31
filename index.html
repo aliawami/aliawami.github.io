@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ali Alawami — Flutter Developer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=Tajawal:wght@300;400;500;700&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:#0a0a0a;--bg2:#111111;--bg3:#181818;
+    --border:rgba(255,255,255,0.08);--border-hover:rgba(255,255,255,0.18);
+    --text:#f0ede8;--text-muted:#888880;--text-faint:#444440;
+    --accent:#c8b89a;--accent2:#7a9e8e;--accent3:#9a8ac8;--red:#c87a7a;
+    --mono:'DM Mono',monospace;--serif:'DM Serif Display',Georgia,serif;
+    --sans:'Outfit',sans-serif;--arabic:'Tajawal',sans-serif;
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--bg);color:var(--text);font-family:var(--sans);font-weight:300;line-height:1.7;overflow-x:hidden;}
+  ::selection{background:var(--accent);color:#0a0a0a;}
+  body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");pointer-events:none;z-index:0;opacity:0.4;}
+  nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:1.25rem 3rem;border-bottom:1px solid var(--border);background:rgba(10,10,10,0.88);backdrop-filter:blur(20px);}
+  .nav-logo{font-family:var(--mono);font-size:13px;color:var(--accent);letter-spacing:0.08em;text-decoration:none;}
+  .nav-links{display:flex;gap:2.5rem;list-style:none;align-items:center;}
+  .nav-links a{font-size:12px;font-weight:400;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-muted);text-decoration:none;transition:color 0.2s;}
+  .nav-links a:hover{color:var(--text);}
+  .nav-lang{font-family:var(--arabic);font-size:13px;color:var(--text-muted);cursor:pointer;border:1px solid var(--border);padding:4px 14px;border-radius:2px;transition:all 0.2s;background:none;}
+  .nav-lang:hover{border-color:var(--border-hover);color:var(--text);}
+  .hero{min-height:100vh;display:flex;flex-direction:column;justify-content:flex-end;padding:0 3rem 5rem;position:relative;overflow:hidden;}
+  .hero-bg-text{position:absolute;top:50%;right:-2rem;transform:translateY(-50%);font-family:var(--serif);font-size:clamp(120px,18vw,260px);color:transparent;-webkit-text-stroke:1px rgba(255,255,255,0.04);line-height:1;pointer-events:none;user-select:none;white-space:nowrap;}
+  .hero-tag{font-family:var(--mono);font-size:11px;letter-spacing:0.2em;color:var(--accent2);text-transform:uppercase;margin-bottom:1.5rem;display:flex;align-items:center;gap:12px;}
+  .hero-tag::before{content:'';display:block;width:32px;height:1px;background:var(--accent2);}
+  .hero-name{font-family:var(--serif);font-size:clamp(52px,8vw,110px);line-height:0.95;letter-spacing:-0.02em;color:var(--text);margin-bottom:0.5rem;}
+  .hero-name em{font-style:italic;color:var(--accent);}
+  .hero-name-ar{font-family:var(--arabic);font-size:clamp(28px,4vw,52px);font-weight:300;color:var(--text-muted);margin-bottom:2.5rem;direction:rtl;}
+  .hero-desc{max-width:560px;font-size:16px;color:var(--text-muted);line-height:1.8;margin-bottom:3rem;}
+  .hero-stats{display:flex;gap:3rem;margin-bottom:3rem;}
+  .stat-item{display:flex;flex-direction:column;gap:4px;}
+  .stat-num{font-family:var(--mono);font-size:28px;font-weight:500;color:var(--text);line-height:1;}
+  .stat-label{font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-faint);}
+  .hero-cta{display:flex;gap:1rem;align-items:center;}
+  .btn-primary{display:inline-flex;align-items:center;gap:8px;padding:12px 28px;background:var(--accent);color:#0a0a0a;font-family:var(--sans);font-size:13px;font-weight:500;letter-spacing:0.05em;text-decoration:none;border-radius:2px;transition:all 0.2s;}
+  .btn-primary:hover{background:#ddd0b8;}
+  .btn-secondary{display:inline-flex;align-items:center;gap:8px;padding:12px 28px;border:1px solid var(--border-hover);color:var(--text-muted);font-family:var(--sans);font-size:13px;font-weight:400;letter-spacing:0.05em;text-decoration:none;border-radius:2px;transition:all 0.2s;}
+  .btn-secondary:hover{border-color:var(--text-muted);color:var(--text);}
+  .scroll-hint{position:absolute;bottom:2rem;right:3rem;font-family:var(--mono);font-size:10px;letter-spacing:0.15em;color:var(--text-faint);text-transform:uppercase;writing-mode:vertical-rl;}
+  section{position:relative;z-index:1;padding:7rem 3rem;}
+  .section-label{font-family:var(--mono);font-size:10px;letter-spacing:0.25em;color:var(--text-faint);text-transform:uppercase;margin-bottom:3rem;display:flex;align-items:center;gap:16px;}
+  .section-label::after{content:'';flex:1;height:1px;background:var(--border);}
+  .section-title{font-family:var(--serif);font-size:clamp(36px,5vw,64px);line-height:1.05;letter-spacing:-0.02em;color:var(--text);margin-bottom:1.5rem;}
+  .section-title em{font-style:italic;color:var(--accent);}
+  .about-grid{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:start;margin-top:4rem;}
+  .about-body{font-size:16px;color:var(--text-muted);line-height:1.9;}
+  .about-body p{margin-bottom:1.5rem;}
+  .about-body strong{color:var(--text);font-weight:500;}
+  .about-body-ar{font-family:var(--arabic);direction:rtl;text-align:right;font-size:16px;color:var(--text-muted);line-height:2;border-right:1px solid var(--border);padding-right:2.5rem;}
+  .about-body-ar p{margin-bottom:1.5rem;}
+  .about-body-ar strong{color:var(--text);font-weight:500;}
+  .expertise-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);margin-top:4rem;border:1px solid var(--border);}
+  .expertise-item{background:var(--bg);padding:2.5rem;transition:background 0.2s;}
+  .expertise-item:hover{background:var(--bg3);}
+  .expertise-icon{font-family:var(--mono);font-size:11px;color:var(--accent);letter-spacing:0.1em;margin-bottom:1.5rem;}
+  .expertise-title{font-size:17px;font-weight:500;color:var(--text);margin-bottom:0.75rem;}
+  .expertise-desc{font-size:13px;color:var(--text-muted);line-height:1.8;}
+  .expertise-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:1.25rem;}
+  .tag{font-family:var(--mono);font-size:10px;letter-spacing:0.08em;padding:3px 8px;border:1px solid var(--border);color:var(--text-faint);border-radius:2px;}
+  .projects-list{margin-top:4rem;}
+  .project-item{display:grid;grid-template-columns:80px 1fr auto;gap:2.5rem;align-items:start;padding:2.5rem 0;border-bottom:1px solid var(--border);transition:all 0.2s;}
+  .project-item:first-child{border-top:1px solid var(--border);}
+  .project-item:hover .project-title{color:var(--accent);}
+  .project-num{font-family:var(--mono);font-size:11px;color:var(--text-faint);padding-top:6px;}
+  .project-title{font-family:var(--serif);font-size:26px;color:var(--text);margin-bottom:0.5rem;letter-spacing:-0.01em;transition:color 0.2s;line-height:1.2;}
+  .project-subtitle{font-size:12px;font-family:var(--mono);color:var(--accent2);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.75rem;}
+  .project-desc{font-size:14px;color:var(--text-muted);line-height:1.8;max-width:600px;}
+  .project-tech{display:flex;flex-wrap:wrap;gap:6px;margin-top:1rem;}
+  .project-status{display:flex;flex-direction:column;align-items:flex-end;gap:8px;padding-top:6px;}
+  .badge{font-family:var(--mono);font-size:10px;letter-spacing:0.1em;text-transform:uppercase;padding:4px 10px;border-radius:2px;white-space:nowrap;}
+  .badge-live{background:rgba(122,158,142,0.15);color:var(--accent2);border:1px solid rgba(122,158,142,0.3);}
+  .badge-hackathon{background:rgba(154,138,200,0.15);color:var(--accent3);border:1px solid rgba(154,138,200,0.3);}
+  .badge-package{background:rgba(200,184,154,0.15);color:var(--accent);border:1px solid rgba(200,184,154,0.3);}
+  .badge-enterprise{background:rgba(200,122,122,0.15);color:var(--red);border:1px solid rgba(200,122,122,0.3);}
+  .timeline{margin-top:4rem;position:relative;}
+  .timeline::before{content:'';position:absolute;left:79px;top:0;bottom:0;width:1px;background:var(--border);}
+  .timeline-item{display:grid;grid-template-columns:80px 1fr;gap:2.5rem;margin-bottom:3rem;position:relative;}
+  .timeline-year{font-family:var(--mono);font-size:11px;color:var(--text-faint);padding-top:4px;text-align:right;}
+  .timeline-dot{position:absolute;left:74px;top:6px;width:11px;height:11px;border-radius:50%;background:var(--bg);border:1px solid var(--border-hover);}
+  .timeline-content{padding-left:1.5rem;}
+  .timeline-role{font-size:16px;font-weight:500;color:var(--text);margin-bottom:2px;}
+  .timeline-company{font-family:var(--mono);font-size:11px;color:var(--accent);letter-spacing:0.08em;margin-bottom:0.5rem;}
+  .timeline-desc{font-size:13px;color:var(--text-muted);line-height:1.8;}
+  .oss-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--border);border:1px solid var(--border);margin-top:4rem;}
+  .oss-item{background:var(--bg);padding:2rem 2.5rem;transition:background 0.2s;}
+  .oss-item:hover{background:var(--bg3);}
+  .oss-name{font-family:var(--mono);font-size:14px;color:var(--accent);margin-bottom:0.5rem;}
+  .oss-desc{font-size:13px;color:var(--text-muted);line-height:1.8;margin-bottom:1rem;}
+  .oss-meta{display:flex;gap:1rem;align-items:center;}
+  .oss-lang{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--text-faint);}
+  .lang-dot{width:8px;height:8px;border-radius:50%;}
+  .contact-section{background:var(--bg2);border-top:1px solid var(--border);}
+  .contact-inner{max-width:700px;}
+  .contact-links{display:flex;flex-direction:column;margin-top:3rem;border:1px solid var(--border);}
+  .contact-link{display:flex;align-items:center;justify-content:space-between;padding:1.25rem 1.75rem;border-bottom:1px solid var(--border);text-decoration:none;transition:background 0.15s;}
+  .contact-link:last-child{border-bottom:none;}
+  .contact-link:hover{background:var(--bg3);}
+  .contact-link-left{display:flex;align-items:center;gap:1.25rem;}
+  .contact-link-icon{font-family:var(--mono);font-size:10px;color:var(--text-faint);letter-spacing:0.1em;width:60px;}
+  .contact-link-label{font-size:15px;color:var(--text);}
+  .contact-link-value{font-family:var(--mono);font-size:12px;color:var(--text-muted);}
+  .arrow{font-size:14px;color:var(--text-faint);transition:transform 0.2s,color 0.2s;}
+  .contact-link:hover .arrow{transform:translateX(4px);color:var(--accent);}
+  footer{padding:2rem 3rem;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
+  .footer-copy{font-family:var(--mono);font-size:11px;color:var(--text-faint);letter-spacing:0.08em;}
+  .footer-ar{font-family:var(--arabic);font-size:12px;color:var(--text-faint);direction:rtl;}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(24px);}to{opacity:1;transform:translateY(0);}}
+  .fade-up{opacity:0;animation:fadeUp 0.7s ease forwards;}
+  .fade-up-1{animation-delay:0.1s;}.fade-up-2{animation-delay:0.25s;}.fade-up-3{animation-delay:0.4s;}.fade-up-4{animation-delay:0.55s;}.fade-up-5{animation-delay:0.7s;}
+  @media(max-width:900px){
+    nav{padding:1rem 1.5rem;}.nav-links{display:none;}
+    section{padding:5rem 1.5rem;}.hero{padding:0 1.5rem 4rem;}
+    .about-grid{grid-template-columns:1fr;gap:3rem;}
+    .about-body-ar{border-right:none;border-top:1px solid var(--border);padding-right:0;padding-top:2rem;}
+    .expertise-grid{grid-template-columns:1fr;}
+    .project-item{grid-template-columns:60px 1fr;}.project-status{display:none;}
+    .oss-grid{grid-template-columns:1fr;}
+    .contact-link-value{display:none;}
+    footer{flex-direction:column;gap:0.5rem;text-align:center;}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="#">ALI.ALAWAMI</a>
+  <ul class="nav-links">
+    <li><a href="#about" id="nav-about">About</a></li>
+    <li><a href="#work" id="nav-work">Work</a></li>
+    <li><a href="#experience" id="nav-experience">Experience</a></li>
+    <li><a href="#open-source" id="nav-oss">Open Source</a></li>
+    <li><a href="#contact" id="nav-contact">Contact</a></li>
+  </ul>
+  <button class="nav-lang" onclick="toggleLang()">ع</button>
+</nav>
+
+<section class="hero" id="home">
+  <div class="hero-bg-text">Flutter</div>
+  <div class="hero-tag fade-up fade-up-1"><span id="hero-tag-text">Mobile Developer · Eastern Province, Saudi Arabia</span></div>
+  <h1 class="hero-name fade-up fade-up-2">Ali <em>Alawami</em></h1>
+  <p class="hero-name-ar fade-up fade-up-3">علي العوامي</p>
+  <p class="hero-desc fade-up fade-up-4" id="hero-desc-text">Flutter developer with 6+ years of professional experience building mobile products for enterprise clients, government-adjacent projects, and co-founded ventures. I write code that ships, and I think about the product it serves.</p>
+  <div class="hero-stats fade-up fade-up-4">
+    <div class="stat-item"><span class="stat-num">6+</span><span class="stat-label" id="stat-dev">Years Dev</span></div>
+    <div class="stat-item"><span class="stat-num">10+</span><span class="stat-label" id="stat-total">Years Total</span></div>
+    <div class="stat-item"><span class="stat-num">4</span><span class="stat-label" id="stat-apps">Enterprise Apps</span></div>
+    <div class="stat-item"><span class="stat-num">1</span><span class="stat-label" id="stat-founded">Co-founded</span></div>
+  </div>
+  <div class="hero-cta fade-up fade-up-5">
+    <a href="#work" class="btn-primary" id="btn-primary-text">View Work →</a>
+    <a href="#contact" class="btn-secondary" id="btn-secondary-text">Get in Touch</a>
+  </div>
+  <div class="scroll-hint">Scroll</div>
+</section>
+
+<section id="about">
+  <div class="section-label" id="sec1-label">01 — About</div>
+  <h2 class="section-title" id="sec1-title">Technically <em>serious.</em><br>Product-minded.</h2>
+  <div class="about-grid">
+    <div class="about-body" id="about-en">
+      <p>I'm a Flutter and iOS developer based in the Eastern Province of Saudi Arabia. My path started with <strong>Objective-C and iOS self-study in 2012</strong> — long before "mobile development" was a job title most people recognized.</p>
+      <p>Over 6+ years of professional development, I've built apps that run on <strong>Aramco infrastructure</strong>, integrated native SDKs via MethodChannel, shipped a published open-source security package, and co-founded a marketplace targeting an underserved market in Saudi Arabia.</p>
+      <p>I don't just write widgets. I think about <strong>architecture, state management, performance,</strong> and what the product actually needs to do. I care as much about why something is being built as how it is built.</p>
+      <p>I document my learning journey on <strong>Medium and LinkedIn</strong> — not because I have all the answers, but because I believe honest, public learning is how the craft improves.</p>
+    </div>
+    <div class="about-body-ar" id="about-ar">
+      <p>مطور Flutter و iOS مقيم في المنطقة الشرقية بالمملكة العربية السعودية. بدأت رحلتي مع تطوير iOS بـ <strong>Objective-C في عام 2012</strong>، قبل أن يُعرف "تطوير الجوال" مساراً مهنياً واضحاً.</p>
+      <p>خلال أكثر من ست سنوات من العمل الاحترافي، بنيت تطبيقات تعمل على <strong>البنية التحتية لأرامكو</strong>، ودمجت حزم SDK أصيلة عبر MethodChannel، ونشرت حزمة أمان مفتوحة المصدر، وشاركت في تأسيس منصة تجارية تستهدف سوقاً في المملكة.</p>
+      <p>لا أكتفي بكتابة الـ widgets. أفكر في <strong>الهندسة المعمارية، وإدارة الحالة، والأداء،</strong> وما يحتاجه المنتج فعلاً. يهمني السبب وراء ما يُبنى بقدر ما يهمني كيف يُبنى.</p>
+      <p>أوثّق رحلتي على <strong>Medium وLinkedIn</strong> — لأنني أؤمن أن التعلم العلني الصادق هو ما يطوّر الصنعة.</p>
+    </div>
+  </div>
+</section>
+
+<section id="expertise" style="padding-top:0;">
+  <div class="section-label" id="sec2-label">02 — Expertise</div>
+  <div class="expertise-grid">
+    <div class="expertise-item">
+      <div class="expertise-icon">01 / MOBILE</div>
+      <div class="expertise-title">Flutter & iOS Development</div>
+      <div class="expertise-desc">Cross-platform mobile development with deep native integration capabilities. From MethodChannel bridging to custom platform plugins.</div>
+      <div class="expertise-tags"><span class="tag">Flutter</span><span class="tag">Dart</span><span class="tag">Swift</span><span class="tag">Objective-C</span><span class="tag">MethodChannel</span></div>
+    </div>
+    <div class="expertise-item">
+      <div class="expertise-icon">02 / STATE</div>
+      <div class="expertise-title">Architecture & State</div>
+      <div class="expertise-desc">Clean architecture with Riverpod as the primary state solution. Diagnosed and resolved real production jank traced to over-broad provider watching.</div>
+      <div class="expertise-tags"><span class="tag">Riverpod</span><span class="tag">Clean Arch</span><span class="tag">DevTools</span><span class="tag">RepaintBoundary</span></div>
+    </div>
+    <div class="expertise-item">
+      <div class="expertise-icon">03 / BACKEND</div>
+      <div class="expertise-title">Supabase & Backend</div>
+      <div class="expertise-desc">Supabase-first backend development including RLS policies, RPC functions, pg_cron jobs, and auth triggers at production scale.</div>
+      <div class="expertise-tags"><span class="tag">Supabase</span><span class="tag">PostgreSQL</span><span class="tag">RLS</span><span class="tag">Django</span></div>
+    </div>
+    <div class="expertise-item">
+      <div class="expertise-icon">04 / SECURITY</div>
+      <div class="expertise-title">Mobile Security</div>
+      <div class="expertise-desc">Author of flutter_security_detection — a published pub.dev package for Frida detection, jailbreak detection, and tamper protection on both iOS and Android.</div>
+      <div class="expertise-tags"><span class="tag">Frida Detection</span><span class="tag">Jailbreak</span><span class="tag">pub.dev</span><span class="tag">iOS & Android</span></div>
+    </div>
+    <div class="expertise-item">
+      <div class="expertise-icon">05 / PRODUCT</div>
+      <div class="expertise-title">Product Thinking</div>
+      <div class="expertise-desc">Co-founded Manakir, a B2C services marketplace for Saudi Arabia. Designed full UX flows including a draggable timeline booking interaction.</div>
+      <div class="expertise-tags"><span class="tag">Co-founder</span><span class="tag">UX Design</span><span class="tag">Arabic RTL</span><span class="tag">Market Fit</span></div>
+    </div>
+    <div class="expertise-item">
+      <div class="expertise-icon">06 / TOOLS</div>
+      <div class="expertise-title">AI-Assisted Development</div>
+      <div class="expertise-desc">Fluent in AI-augmented workflows using Cursor, Windsurf, and Claude for architecture, code review, and accelerated delivery.</div>
+      <div class="expertise-tags"><span class="tag">Cursor</span><span class="tag">Prompt Eng.</span><span class="tag">Windsurf</span><span class="tag">Bolt.new</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="work">
+  <div class="section-label" id="sec3-label">03 — Selected Work</div>
+  <h2 class="section-title" id="sec3-title">Things I've <em>built.</em></h2>
+  <div class="projects-list">
+    <div class="project-item">
+      <div class="project-num">001</div>
+      <div class="project-body">
+        <div class="project-subtitle">Co-founder · Marketplace</div>
+        <div class="project-title">Manakir</div>
+        <div class="project-desc">A B2C services marketplace for Saudi Arabia. Built with Flutter and Supabase, featuring a custom draggable timeline booking flow, full Arabic RTL support, and a single Riverpod state source. Currently in development.</div>
+        <div class="project-tech"><span class="tag">Flutter</span><span class="tag">Supabase</span><span class="tag">Riverpod</span><span class="tag">Arabic RTL</span><span class="tag">Booking Flow</span></div>
+      </div>
+      <div class="project-status"><span class="badge badge-live">In Development</span></div>
+    </div>
+    <div class="project-item">
+      <div class="project-num">002</div>
+      <div class="project-body">
+        <div class="project-subtitle">Hackathon · Sports Tech</div>
+        <div class="project-title">LeagueOS</div>
+        <div class="project-desc">A full-featured sports league management platform built for the Sports Innovation Hackathon 2026, anchored in Saudi Vision 2030 and FIFA World Cup 2034 context. Backend complete with RLS, RPC functions, pg_cron scheduling, and Supabase auth triggers.</div>
+        <div class="project-tech"><span class="tag">Flutter</span><span class="tag">Supabase</span><span class="tag">pg_cron</span><span class="tag">RPC</span><span class="tag">Vision 2030</span></div>
+      </div>
+      <div class="project-status"><span class="badge badge-hackathon">Hackathon 2026</span></div>
+    </div>
+    <div class="project-item">
+      <div class="project-num">003</div>
+      <div class="project-body">
+        <div class="project-subtitle">Open Source · Security Package</div>
+        <div class="project-title">flutter_security_detection</div>
+        <div class="project-desc">A published pub.dev Flutter package providing runtime security protection for mobile apps. Detects Frida instrumentation, jailbreak/root environments, and tampering attempts on both iOS and Android.</div>
+        <div class="project-tech"><span class="tag">Flutter</span><span class="tag">Dart</span><span class="tag">Swift</span><span class="tag">Kotlin</span><span class="tag">pub.dev</span></div>
+      </div>
+      <div class="project-status"><span class="badge badge-package">Published</span></div>
+    </div>
+    <div class="project-item">
+      <div class="project-num">004</div>
+      <div class="project-body">
+        <div class="project-subtitle">Enterprise · Aramco / SBM</div>
+        <div class="project-title">Enterprise Asset Management App</div>
+        <div class="project-desc">Enterprise mobile application built for Aramco. Integrated a native RFID SDK via Flutter MethodChannel — requiring deep platform-channel bridging between Dart and native iOS/Android layers. Part of Aramco's broader digital transformation portfolio.</div>
+        <div class="project-tech"><span class="tag">Flutter</span><span class="tag">MethodChannel</span><span class="tag">RFID SDK</span><span class="tag">Aramco</span><span class="tag">Enterprise</span></div>
+      </div>
+      <div class="project-status"><span class="badge badge-enterprise">Enterprise</span></div>
+    </div>
+    <div class="project-item">
+      <div class="project-num">005</div>
+      <div class="project-body">
+        <div class="project-subtitle">Enterprise · Aramco Portfolio</div>
+        <div class="project-title">Enterprise Logistics & Compliance Apps</div>
+        <div class="project-desc">Two enterprise mobile applications developed for Aramco. One focused on fleet and cargo logistics tracking, the other on supplier compliance and local content measurement — a critical Vision 2030 reporting requirement.</div>
+        <div class="project-tech"><span class="tag">Flutter</span><span class="tag">Tech Mahindra</span><span class="tag">Enterprise</span><span class="tag">Vision 2030</span></div>
+      </div>
+      <div class="project-status"><span class="badge badge-enterprise">Enterprise</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="experience">
+  <div class="section-label" id="sec4-label">04 — Experience</div>
+  <h2 class="section-title" id="sec4-title">Where I've <em>worked.</em></h2>
+  <div class="timeline">
+    <div class="timeline-item">
+      <div class="timeline-year">2024—</div>
+      <div class="timeline-dot"></div>
+      <div class="timeline-content">
+        <div class="timeline-role">Co-founder & Flutter Developer</div>
+        <div class="timeline-company">MANAKIR</div>
+        <div class="timeline-desc">Co-founded a B2C services marketplace for Saudi Arabia. Responsible for the full Flutter frontend, Supabase backend architecture, Arabic UX design, and product strategy.</div>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-year">2021—24</div>
+      <div class="timeline-dot"></div>
+      <div class="timeline-content">
+        <div class="timeline-role">Flutter Developer</div>
+        <div class="timeline-company">SBM — ARAMCO PROJECTS</div>
+        <div class="timeline-desc">Built enterprise mobile applications for Aramco. Delivered deep native SDK integration via MethodChannel for RFID hardware. Worked alongside cross-functional teams in a large-scale enterprise environment.</div>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-year">2019—21</div>
+      <div class="timeline-dot"></div>
+      <div class="timeline-content">
+        <div class="timeline-role">Mobile Developer</div>
+        <div class="timeline-company">TECH MAHINDRA — ARAMCO PROJECTS</div>
+        <div class="timeline-desc">Developed enterprise mobile applications for Aramco under Tech Mahindra's delivery framework. Logistics tracking and compliance reporting at enterprise scale.</div>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-year">2012</div>
+      <div class="timeline-dot"></div>
+      <div class="timeline-content">
+        <div class="timeline-role">Self-taught iOS Developer</div>
+        <div class="timeline-company">INDEPENDENT</div>
+        <div class="timeline-desc">Began mobile development journey with Objective-C and iOS self-study. Built foundational understanding of mobile architecture, UIKit, and Apple platform conventions before Flutter existed.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="open-source">
+  <div class="section-label" id="sec5-label">05 — Open Source</div>
+  <h2 class="section-title" id="sec5-title">Code I've <em>shared.</em></h2>
+  <div class="oss-grid">
+    <div class="oss-item">
+      <div class="oss-name">flutter_security_detection</div>
+      <div class="oss-desc">Runtime mobile security package. Frida detection, jailbreak/root detection, and tamper protection for Flutter apps on iOS and Android.</div>
+      <div class="oss-meta">
+        <div class="oss-lang"><span class="lang-dot" style="background:#00B4AB;"></span>Dart / Swift / Kotlin</div>
+        <span class="tag">pub.dev</span>
+      </div>
+    </div>
+    <div class="oss-item">
+      <div class="oss-name">LeagueOS</div>
+      <div class="oss-desc">Sports league management platform. Full Flutter + Supabase stack with RLS, RPC functions, pg_cron scheduling, and a complete multi-role auth system.</div>
+      <div class="oss-meta">
+        <div class="oss-lang"><span class="lang-dot" style="background:#00B4AB;"></span>Dart / PostgreSQL</div>
+        <span class="tag">GitHub</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="contact" class="contact-section">
+  <div class="contact-inner">
+    <div class="section-label" id="sec6-label">06 — Contact</div>
+    <h2 class="section-title" id="sec6-title">Let's <em>talk.</em></h2>
+    <p id="sec6-desc" style="font-size:15px;color:var(--text-muted);margin-top:1rem;max-width:480px;">Available for senior Flutter roles, technical consulting, and conversations about building products for the Saudi market.</p>
+    <div class="contact-links">
+      <a class="contact-link" href="https://www.linkedin.com/in/ali-awami/" target="_blank">
+        <div class="contact-link-left"><span class="contact-link-icon">LinkedIn</span><span class="contact-link-label">Ali Awami</span></div>
+        <div style="display:flex;align-items:center;gap:1.5rem;"><span class="contact-link-value">linkedin.com/in/ali-awami</span><span class="arrow">→</span></div>
+      </a>
+      <a class="contact-link" href="https://github.com/aliawami" target="_blank">
+        <div class="contact-link-left"><span class="contact-link-icon">GitHub</span><span class="contact-link-label">aliawami</span></div>
+        <div style="display:flex;align-items:center;gap:1.5rem;"><span class="contact-link-value">github.com/aliawami</span><span class="arrow">→</span></div>
+      </a>
+      <a class="contact-link" href="https://aliawami.medium.com" target="_blank">
+        <div class="contact-link-left"><span class="contact-link-icon">Medium</span><span class="contact-link-label">Writing & Learning in Public</span></div>
+        <div style="display:flex;align-items:center;gap:1.5rem;"><span class="contact-link-value">aliawami.medium.com</span><span class="arrow">→</span></div>
+      </a>
+      <a class="contact-link" href="mailto:aliawami@protonmail.com">
+        <div class="contact-link-left"><span class="contact-link-icon">Email</span><span class="contact-link-label">aliawami@protonmail.com</span></div>
+        <div style="display:flex;align-items:center;gap:1.5rem;"><span class="contact-link-value">Direct</span><span class="arrow">→</span></div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span class="footer-copy" id="footer-copy">© 2026 Ali Alawami — Built with intention.</span>
+  <span class="footer-ar">علي العوامي · المنطقة الشرقية، المملكة العربية السعودية</span>
+</footer>
+
+<script>
+  var lang = 'en';
+  var T = {
+    en: {
+      'nav-about':'About','nav-work':'Work','nav-experience':'Experience','nav-oss':'Open Source','nav-contact':'Contact',
+      'hero-tag-text':'Mobile Developer · Eastern Province, Saudi Arabia',
+      'hero-desc-text':'Flutter developer with 6+ years of professional experience building mobile products for enterprise clients, government-adjacent projects, and co-founded ventures. I write code that ships, and I think about the product it serves.',
+      'btn-primary-text':'View Work \u2192','btn-secondary-text':'Get in Touch',
+      'stat-dev':'Years Dev','stat-total':'Years Total','stat-apps':'Enterprise Apps','stat-founded':'Co-founded',
+      'sec1-label':'01 \u2014 About','sec1-title':'Technically <em>serious.</em><br>Product-minded.',
+      'sec2-label':'02 \u2014 Expertise',
+      'sec3-label':'03 \u2014 Selected Work','sec3-title':'Things I\'ve <em>built.</em>',
+      'sec4-label':'04 \u2014 Experience','sec4-title':'Where I\'ve <em>worked.</em>',
+      'sec5-label':'05 \u2014 Open Source','sec5-title':'Code I\'ve <em>shared.</em>',
+      'sec6-label':'06 \u2014 Contact','sec6-title':'Let\'s <em>talk.</em>',
+      'sec6-desc':'Available for senior Flutter roles, technical consulting, and conversations about building products for the Saudi market.',
+      'footer-copy':'\u00a9 2026 Ali Alawami \u2014 Built with intention.'
+    },
+    ar: {
+      'nav-about':'\u0639\u0646','nav-work':'\u0623\u0639\u0645\u0627\u0644','nav-experience':'\u062e\u0628\u0631\u0629','nav-oss':'\u0645\u0641\u062a\u0648\u062d \u0627\u0644\u0645\u0635\u062f\u0631','nav-contact':'\u062a\u0648\u0627\u0635\u0644',
+      'hero-tag-text':'\u0645\u0637\u0648\u0631 \u062c\u0648\u0627\u0644 \u00b7 \u0627\u0644\u0645\u0646\u0637\u0642\u0629 \u0627\u0644\u0634\u0631\u0642\u064a\u0629\u060c \u0627\u0644\u0645\u0645\u0644\u0643\u0629 \u0627\u0644\u0639\u0631\u0628\u064a\u0629 \u0627\u0644\u0633\u0639\u0648\u062f\u064a\u0629',
+      'hero-desc-text':'\u0645\u0637\u0648\u0631 Flutter \u0628\u062e\u0628\u0631\u0629 \u0645\u0647\u0646\u064a\u0629 \u062a\u062a\u062c\u0627\u0648\u0632 \u0633\u062a \u0633\u0646\u0648\u0627\u062a \u0641\u064a \u0628\u0646\u0627\u0621 \u0645\u0646\u062a\u062c\u0627\u062a \u062c\u0648\u0627\u0644 \u0644\u0639\u0645\u0644\u0627\u0621 \u0627\u0644\u0645\u0624\u0633\u0633\u0627\u062a \u0648\u0627\u0644\u0645\u0634\u0627\u0631\u064a\u0639 \u0627\u0644\u0645\u0631\u062a\u0628\u0637\u0629 \u0628\u0627\u0644\u0642\u0637\u0627\u0639 \u0627\u0644\u062d\u0643\u0648\u0645\u064a. \u0623\u0643\u062a\u0628 \u0643\u0648\u062f\u0627\u064b \u064a\u064f\u0634\u062d\u0646\u060c \u0648\u0623\u0641\u0643\u0631 \u0641\u064a \u0627\u0644\u0645\u0646\u062a\u062c \u0627\u0644\u0630\u064a \u064a\u062e\u062f\u0645\u0647.',
+      'btn-primary-text':'\u0639\u0631\u0636 \u0627\u0644\u0623\u0639\u0645\u0627\u0644 \u2192','btn-secondary-text':'\u062a\u0648\u0627\u0635\u0644 \u0645\u0639\u064a',
+      'stat-dev':'\u0633\u0646\u0648\u0627\u062a \u062a\u0637\u0648\u064a\u0631','stat-total':'\u0633\u0646\u0648\u0627\u062a \u062e\u0628\u0631\u0629','stat-apps':'\u062a\u0637\u0628\u064a\u0642\u0627\u062a \u0645\u0624\u0633\u0633\u064a\u0629','stat-founded':'\u0645\u0624\u0633\u0633 \u0645\u0634\u0627\u0631\u0643',
+      'sec1-label':'01 \u2014 \u0639\u0646','sec1-title':'\u062c\u0627\u062f <em>\u062a\u0642\u0646\u064a\u0627\u064b.</em><br>\u0645\u062f\u0641\u0648\u0639 \u0628\u0627\u0644\u0645\u0646\u062a\u062c.',
+      'sec2-label':'02 \u2014 \u062e\u0628\u0631\u0627\u062a',
+      'sec3-label':'03 \u2014 \u0623\u0639\u0645\u0627\u0644 \u0645\u062e\u062a\u0627\u0631\u0629','sec3-title':'\u0645\u0627 \u0642\u0645\u062a <em>\u0628\u0628\u0646\u0627\u0626\u0647.</em>',
+      'sec4-label':'04 \u2014 \u062a\u062c\u0631\u0628\u0629','sec4-title':'\u0623\u064a\u0646 <em>\u0639\u0645\u0644\u062a.</em>',
+      'sec5-label':'05 \u2014 \u0645\u0641\u062a\u0648\u062d \u0627\u0644\u0645\u0635\u062f\u0631','sec5-title':'\u0643\u0648\u062f <em>\u0634\u0627\u0631\u0643\u062a\u0647.</em>',
+      'sec6-label':'06 \u2014 \u062a\u0648\u0627\u0635\u0644','sec6-title':'\u0644\u0646\u062a\u062d\u062f\u062b.',
+      'sec6-desc':'\u0645\u062a\u0627\u062d \u0644\u0644\u0623\u062f\u0648\u0627\u0631 \u0627\u0644\u062a\u0642\u0646\u064a\u0629 \u0627\u0644\u0623\u0648\u0644\u0649 \u0641\u064a Flutter \u0648\u0627\u0644\u0627\u0633\u062a\u0634\u0627\u0631\u0627\u062a \u0627\u0644\u062a\u0642\u0646\u064a\u0629 \u0648\u0627\u0644\u062d\u0648\u0627\u0631\u0627\u062a \u062d\u0648\u0644 \u0628\u0646\u0627\u0621 \u0645\u0646\u062a\u062c\u0627\u062a \u0644\u0644\u0633\u0648\u0642 \u0627\u0644\u0633\u0639\u0648\u062f\u064a.',
+      'footer-copy':'\u00a9 2026 \u0639\u0644\u064a \u0627\u0644\u0639\u0648\u0627\u0645\u064a \u2014 \u0628\u064f\u0646\u064a \u0628\u062a\u0623\u0646\u064d.'
+    }
+  };
+
+  function toggleLang() {
+    lang = lang === 'en' ? 'ar' : 'en';
+    var isAr = lang === 'ar';
+    document.querySelector('.nav-lang').textContent = isAr ? 'EN' : '\u0639';
+    document.documentElement.lang = lang;
+    document.documentElement.dir = isAr ? 'rtl' : 'ltr';
+
+    var keys = Object.keys(T[lang]);
+    for (var i = 0; i < keys.length; i++) {
+      var el = document.getElementById(keys[i]);
+      if (el) el.innerHTML = T[lang][keys[i]];
+    }
+
+    var aboutEn = document.getElementById('about-en');
+    var aboutAr = document.getElementById('about-ar');
+    if (aboutEn && aboutAr) {
+      aboutEn.style.display = isAr ? 'none' : 'block';
+      aboutAr.style.display = isAr ? 'block' : 'none';
+      aboutAr.style.borderRight = isAr ? 'none' : '1px solid rgba(255,255,255,0.08)';
+      aboutAr.style.borderLeft = isAr ? '1px solid rgba(255,255,255,0.08)' : 'none';
+      aboutAr.style.paddingRight = isAr ? '0' : '2.5rem';
+      aboutAr.style.paddingLeft = isAr ? '2.5rem' : '0';
+    }
+  }
+
+  var observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(e) {
+      if (e.isIntersecting) {
+        e.target.style.opacity = '1';
+        e.target.style.transform = 'translateY(0)';
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.project-item,.timeline-item,.expertis
